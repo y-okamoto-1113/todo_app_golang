@@ -22,4 +22,12 @@ func main() {
 		log.Fatalln(err)
 	}
 
+	// INSERT
+	// INSERTされたか確認するには `sqlite3 example.sql` を実行して `select * from persons;` で分かる。
+	cmd = "INSERT INTO persons (name, age) VALUES(?, ?)"
+	_, err = Db.Exec(cmd, "tarou", 25)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 }
