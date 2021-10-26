@@ -30,4 +30,10 @@ func main() {
 		log.Fatalln(err)
 	}
 
+	// UPDATE
+	cmd = "UPDATE persons SET age = ? WHERE name = ?"
+	_, err = Db.Exec(cmd, 30, "tarou")
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
