@@ -2,12 +2,18 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var Db *sql.DB
+
+type Person struct {
+	Name string
+	Age  int
+}
 
 func main() {
 	Db, _ := sql.Open("sqlite3", "./example.sql")
@@ -36,4 +42,25 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	// SELECT
+	cmd = "SELECT * FROM persons WHERE name = ?"
+	row := Db.QueryRow(cmd, "tarou") // `QueryRow` は1レコードのみ取得
+	var p Person
+	err = row.Scan(&p.Name, &p.Age)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			log.Println("No Row")
+		} else {
+			log.Println(err)
+		}
+	}
+	fmt.Println("p.Name, p.Age =>", p.Name, p.Age)
+
+	// DELETE
+	// cmd = "INSERT INTO persons (name, age) VALUES(?, ?)"
+	// _, err = Db.Exec(cmd, "hanako", 19)
+	// if err != nil {
+	// 	log.Fatalln(err)
+	// }
 }
