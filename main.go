@@ -13,14 +13,17 @@ func main() {
 
 	// log.Println(1111)
 
-	fmt.Println(models.Db)
-	u := &models.User{
-		Name:     "test",
-		Email:    "test@example.com",
-		Password: "testtest",
-	}
-	fmt.Println("u =>", u)
+	fmt.Println("models.Db =>", models.Db)
 
-	u.CreateUser()
+	// u := &models.User{
+	// 	Name:     "test",
+	// 	Email:    "test@example.com",
+	// 	Password: "testtest",
+	// }
+	// fmt.Println("u =>", u)
+	// u.CreateUser()
+
+	u, _ := models.FindUser(1)
+	fmt.Println("u =>", u)
 
 }

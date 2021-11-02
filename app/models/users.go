@@ -35,3 +35,18 @@ func (u *User) CreateUser() (err error) {
 	}
 	return err
 }
+
+func FindUser(id uint64) (user User, err error) {
+	user = User{}
+	// cmd := `select * from users where id = ?` // なぜか `*`アスタリスク が使えない。
+	cmd := `select id, uuid, name, email, password, created_at from users where id = ?`
+	err = Db.QueryRow(cmd, id).Scan(
+		&user.ID,
+		&user.UUID,
+		&user.Name,
+		&user.Email,
+		&user.Password,
+		&user.CreatedAt,
+	)
+	return user, err
+}
