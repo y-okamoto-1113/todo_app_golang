@@ -23,17 +23,8 @@ func main() {
 	// fmt.Println("u =>", u)
 	// u.CreateUser()
 
-	u, _ := models.FindUser(3)
+	u, _ := models.FindUser(1)
 	fmt.Println("u =>", u)
-
-	u.Name = "test3"
-	u.Email = "test3@example.com"
-	u.UpdateUser()
-	u, _ = models.FindUser(3)
-	fmt.Println(u)
-
-	u.DeleteUser()
-	u, _ = models.FindUser(3)
-	fmt.Println(u)
+	u.CreateTodo("First Todo")
 
 }
