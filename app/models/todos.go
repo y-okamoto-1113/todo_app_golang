@@ -23,3 +23,15 @@ func (u *User) CreateTodo(content string) (err error) {
 	}
 	return err
 }
+
+func FindTodo(id uint64) (todo Todo, err error) {
+	cmd := `select id, user_id, content, created_at from todos where id = ?`
+	todo = Todo{}
+	err = Db.QueryRow(cmd, id).Scan(
+		&todo.ID,
+		&todo.UserID,
+		&todo.Content,
+		&todo.CreatedAt,
+	)
+	return todo, err
+}

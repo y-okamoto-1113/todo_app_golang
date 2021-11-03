@@ -23,8 +23,12 @@ func main() {
 	// fmt.Println("u =>", u)
 	// u.CreateUser()
 
-	u, _ := models.FindUser(1)
-	fmt.Println("u =>", u)
-	u.CreateTodo("First Todo")
+	// u, _ := models.FindUser(1)
+	// fmt.Println("u =>", u)
+	// u.CreateTodo("First Todo")
+
+	t, err := models.FindTodo(1)
+	fmt.Println("err =>", err)
+	fmt.Println("t =>", t)
 
 }
