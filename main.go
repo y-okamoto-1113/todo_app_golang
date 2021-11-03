@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"todo_app_golang/app/controllers"
 	"todo_app_golang/app/models"
 )
 
@@ -43,14 +45,18 @@ func main() {
 	// t.UpdateTodo()
 	// fmt.Println(t)
 
-	u, _ := models.FindUser(1)
-	_ = u.CreateTodo("todo to be deleted")
-	todos, _ := u.FindTodosByUser()
-	fmt.Println("todos before delete =>", todos)
-	last_index := len(todos) - 1
-	t := todos[last_index]
-	t.DeleteTodo()
-	todos, _ = u.FindTodosByUser()
-	fmt.Println("todos after delete =>", todos)
+	// u, _ := models.FindUser(1)
+	// _ = u.CreateTodo("todo to be deleted")
+	// todos, _ := u.FindTodosByUser()
+	// fmt.Println("todos before delete =>", todos)
+	// last_index := len(todos) - 1
+	// t := todos[last_index]
+	// t.DeleteTodo()
+	// todos, _ = u.FindTodosByUser()
+	// fmt.Println("todos after delete =>", todos)
 
+	err := controllers.StartMainServer()
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
