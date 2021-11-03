@@ -1,3 +1,5 @@
 2021/11/01 01:02:10 main.go:15: 1111
 2021/11/02 19:36:59 users.go:34: near "inser": syntax error
 2021/11/03 16:18:15 users.go:58: near "where": syntax error
+2021/11/03 19:33:15 todos.go:67: near "from": syntax error
+2021/11/03 19:33:33 todos.go:67: near "user_id": syntax error

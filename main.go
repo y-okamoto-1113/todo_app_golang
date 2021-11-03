@@ -33,7 +33,13 @@ func main() {
 	// fmt.Println("err =>", err)
 	// fmt.Println("t =>", t)
 
-	todos, _ := models.FindTodos()
+	// todos, _ := models.FindTodos()
+	// for index, todo := range todos {
+	// 	fmt.Println(index, todo)
+	// }
+
+	u, _ := models.FindUser(1)
+	todos, _ := u.FindTodosByUser()
 	for index, todo := range todos {
 		fmt.Println(index, todo)
 	}

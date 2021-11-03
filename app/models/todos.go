@@ -59,3 +59,26 @@ func FindTodos() (todos []Todo, err error) {
 	rows.Close()
 	return todos, err
 }
+
+func (u *User) FindTodosByUser() (todos []Todo, err error) {
+	cmd := `select id, user_id, content, created_at from todos where user_id = ?`
+	rows, err := Db.Query(cmd, u.ID)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	for rows.Next() {
+		var todo Todo
+		err = rows.Scan(&todo.ID,
+			&todo.UserID,
+			&todo.Content,
+			&todo.CreatedAt,
+		)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		todos = append(todos, todo)
+	}
+	rows.Close()
+
+	return todos, err
+}
