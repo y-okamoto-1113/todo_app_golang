@@ -50,3 +50,12 @@ func FindUser(id uint64) (user User, err error) {
 	)
 	return user, err
 }
+
+func (u *User) UpdateUser() (err error) {
+	cmd := `update users set name = ?, email = ? where id = ?`
+	_, err = Db.Exec(cmd, u.Name, u.Email, u.ID)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return err
+}
