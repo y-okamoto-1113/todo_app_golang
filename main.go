@@ -38,8 +38,19 @@ func main() {
 	// 	fmt.Println(index, todo)
 	// }
 
-	t, _ := models.FindTodo(1)
-	t.Content = "this content is updated by user"
-	t.UpdateTodo()
-	fmt.Println(t)
+	// t, _ := models.FindTodo(1)
+	// t.Content = "this content is updated by user"
+	// t.UpdateTodo()
+	// fmt.Println(t)
+
+	u, _ := models.FindUser(1)
+	_ = u.CreateTodo("todo to be deleted")
+	todos, _ := u.FindTodosByUser()
+	fmt.Println("todos before delete =>", todos)
+	last_index := len(todos) - 1
+	t := todos[last_index]
+	t.DeleteTodo()
+	todos, _ = u.FindTodosByUser()
+	fmt.Println("todos after delete =>", todos)
+
 }
