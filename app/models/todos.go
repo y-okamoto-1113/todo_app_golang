@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"log"
 	"time"
 )
@@ -34,4 +35,27 @@ func FindTodo(id uint64) (todo Todo, err error) {
 		&todo.CreatedAt,
 	)
 	return todo, err
+}
+
+func FindTodos() (todos []Todo, err error) {
+	cmd := `select id, user_id, content, created_at from todos`
+	rows, err := Db.Query(cmd)
+	fmt.Println("rows =>", rows)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	for rows.Next() {
+		var todo Todo
+		err = rows.Scan(&todo.ID,
+			&todo.UserID,
+			&todo.Content,
+			&todo.CreatedAt,
+		)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		todos = append(todos, todo)
+	}
+	rows.Close()
+	return todos, err
 }

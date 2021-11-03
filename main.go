@@ -26,9 +26,15 @@ func main() {
 	// u, _ := models.FindUser(1)
 	// fmt.Println("u =>", u)
 	// u.CreateTodo("First Todo")
+	// u.CreateTodo("Second Todo")
+	// u.CreateTodo("Third Todo")
 
-	t, err := models.FindTodo(1)
-	fmt.Println("err =>", err)
-	fmt.Println("t =>", t)
+	// t, err := models.FindTodo(1)
+	// fmt.Println("err =>", err)
+	// fmt.Println("t =>", t)
 
+	todos, _ := models.FindTodos()
+	for index, todo := range todos {
+		fmt.Println(index, todo)
+	}
 }
