@@ -38,9 +38,8 @@ func main() {
 	// 	fmt.Println(index, todo)
 	// }
 
-	u, _ := models.FindUser(1)
-	todos, _ := u.FindTodosByUser()
-	for index, todo := range todos {
-		fmt.Println(index, todo)
-	}
+	t, _ := models.FindTodo(1)
+	t.Content = "this content is updated by user"
+	t.UpdateTodo()
+	fmt.Println(t)
 }
