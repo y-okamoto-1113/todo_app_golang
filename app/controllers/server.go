@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"todo_app_golang/app/models"
 	"todo_app_golang/config"
 )
 
@@ -26,6 +27,17 @@ func generateHTML(w http.ResponseWriter, data interface{}, filenames ...string) 
 	templates.ExecuteTemplate(w, "layout", data)
 }
 
+func getSession(w http.ResponseWriter, r *http.Request) (s models.Session, err error) {
+	cookie, err := r.Cookie("_cookie")
+	if err == nil {
+		s = models.Session{UUID: cookie.Value}
+		if ok, _ := s.CheckSession(); !ok {
+			err = fmt.Errorf("Invalid Session!")
+		}
+	}
+	return s, err
+}
+
 func StartMainServer() error {
 	files := http.FileServer(http.Dir(config.Config.Static))
 	fmt.Println("files =>", files) // => &{app/views}
@@ -36,5 +48,6 @@ func StartMainServer() error {
 	http.HandleFunc("/signup", SignupHandler)
 	http.HandleFunc("/login", LoginHandler)
 	http.HandleFunc("/authenticate", AuthenticateHandler)
+	http.HandleFunc("/todos", IndexHandler)
 	return http.ListenAndServe(":"+config.Config.Port, nil)
 }

@@ -9,7 +9,12 @@ import (
 
 func SignupHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
-		generateHTML(w, "signup handler", "layout", "public_navbar", "signup")
+		_, err := getSession(w, r)
+		if err != nil {
+			generateHTML(w, "signup handler", "layout", "public_navbar", "signup")
+		} else {
+			http.Redirect(w, r, "/todos", 302)
+		}
 	} else if r.Method == "POST" {
 		fmt.Println("POST SignupHandler before parser =>\n", r)
 		err := r.ParseForm() // `Form` で送られたデータをパースする。
@@ -31,7 +36,12 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
-	generateHTML(w, nil, "layout", "public_navbar", "login")
+	_, err := getSession(w, r)
+	if err != nil {
+		generateHTML(w, nil, "layout", "public_navbar", "login")
+	} else {
+		http.Redirect(w, r, "/todos", 302)
+	}
 }
 
 func AuthenticateHandler(w http.ResponseWriter, r *http.Request) {
