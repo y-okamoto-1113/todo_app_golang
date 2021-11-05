@@ -12,6 +12,7 @@ type User struct {
 	Email     string
 	Password  string
 	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (u *User) CreateUser() (err error) {
@@ -19,15 +20,14 @@ func (u *User) CreateUser() (err error) {
 		uuid,
 		name,
 		email,
-		password,
-		created_at) values (?, ?, ?, ?, ?)`
+		password) values (?, ?, ?, ?)`
 
 	// Db は base.go で import されてる同じ models パッケージ内の処理なので参照できる。
 	_, err = Db.Exec(cmd,
 		CreateUUID(),
-		u.Name, u.Email,
+		u.Name,
+		u.Email,
 		Encrypt(u.Password),
-		time.Now(),
 	)
 
 	if err != nil {
@@ -38,8 +38,7 @@ func (u *User) CreateUser() (err error) {
 
 func FindUser(id uint64) (user User, err error) {
 	user = User{}
-	// cmd := `select * from users where id = ?` // なぜか `*`アスタリスク が使えない。
-	cmd := `select id, uuid, name, email, password, created_at from users where id = ?`
+	cmd := `select * from users where id = ?`
 	err = Db.QueryRow(cmd, id).Scan(
 		&user.ID,
 		&user.UUID,
@@ -47,6 +46,7 @@ func FindUser(id uint64) (user User, err error) {
 		&user.Email,
 		&user.Password,
 		&user.CreatedAt,
+		&user.UpdatedAt,
 	)
 	return user, err
 }

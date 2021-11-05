@@ -11,14 +11,14 @@ type Todo struct {
 	UserID    uint64
 	Content   string
 	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (u *User) CreateTodo(content string) (err error) {
 	cmd := `insert into todos (
 		user_id,
-		content,
-		created_at) values (?, ?, ?)`
-	_, err = Db.Exec(cmd, u.ID, content, time.Now())
+		content) values (?, ?)`
+	_, err = Db.Exec(cmd, u.ID, content)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -26,19 +26,20 @@ func (u *User) CreateTodo(content string) (err error) {
 }
 
 func FindTodo(id uint64) (todo Todo, err error) {
-	cmd := `select id, user_id, content, created_at from todos where id = ?`
+	cmd := `select * from todos where id = ?`
 	todo = Todo{}
 	err = Db.QueryRow(cmd, id).Scan(
 		&todo.ID,
 		&todo.UserID,
 		&todo.Content,
 		&todo.CreatedAt,
+		&todo.UpdatedAt,
 	)
 	return todo, err
 }
 
-func FindTodos() (todos []Todo, err error) {
-	cmd := `select id, user_id, content, created_at from todos`
+func FindAllTodos() (todos []Todo, err error) {
+	cmd := `select * from todos`
 	rows, err := Db.Query(cmd)
 	fmt.Println("rows =>", rows)
 	if err != nil {
@@ -50,6 +51,7 @@ func FindTodos() (todos []Todo, err error) {
 			&todo.UserID,
 			&todo.Content,
 			&todo.CreatedAt,
+			&todo.UpdatedAt,
 		)
 		if err != nil {
 			log.Fatalln(err)
@@ -61,7 +63,7 @@ func FindTodos() (todos []Todo, err error) {
 }
 
 func (u *User) FindTodosByUser() (todos []Todo, err error) {
-	cmd := `select id, user_id, content, created_at from todos where user_id = ?`
+	cmd := `select * from todos where user_id = ?`
 	rows, err := Db.Query(cmd, u.ID)
 	if err != nil {
 		log.Fatalln(err)
@@ -72,6 +74,7 @@ func (u *User) FindTodosByUser() (todos []Todo, err error) {
 			&todo.UserID,
 			&todo.Content,
 			&todo.CreatedAt,
+			&todo.UpdatedAt,
 		)
 		if err != nil {
 			log.Fatalln(err)

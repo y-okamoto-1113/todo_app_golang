@@ -16,8 +16,9 @@ var Db *sql.DB
 var err error
 
 const (
-	tableNameUser = "users"
-	tableNameTodo = "todos"
+	tableNameUser    = "users"
+	tableNameTodo    = "todos"
+	tableNameSession = "sessions"
 )
 
 func init() {
@@ -25,25 +26,45 @@ func init() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	//! WARING: SQLite3 は `on update CURRENT_TIMESTAMP` 使えない。
 	cmdU := fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		uuid STRING NOT NULL UNIQUE,
 		name STRING,
 		email STRING,
 		password STRING,
-		created_at DATETIME,
-		updated_at DATETIME
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	)`, tableNameUser)
-	Db.Exec(cmdU)
+	_, err = Db.Exec(cmdU)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	cmdT := fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s(
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		user_id INTEGER,
 		content TEXT,
-		created_at DATETIME,
-		updated_at DATETIME
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	)`, tableNameTodo)
-	Db.Exec(cmdT)
+	_, err = Db.Exec(cmdT)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	cmdS := fmt.Sprintf(`CREATE TABLE IF NOT EXISTS %s(
+		id INTEGER PRIMARY KEY AUTOINCREMENT,
+		uuid STRING NOT NULL UNIQUE,
+		user_id INTEGER,
+		email STRING,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	)`, tableNameSession)
+	_, err = Db.Exec(cmdS)
+	if err != nil {
+		log.Fatalln(err)
+	}
 }
 
 func CreateUUID() (uuidobj uuid.UUID) {
