@@ -51,6 +51,21 @@ func FindUser(id uint64) (user User, err error) {
 	return user, err
 }
 
+func FindUserByEmail(email string) (user User, err error) {
+	user = User{}
+	cmd := `select * from users where email = ?`
+	err = Db.QueryRow(cmd, email).Scan(
+		&user.ID,
+		&user.UUID,
+		&user.Name,
+		&user.Email,
+		&user.Password,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+	return user, err
+}
+
 func (u *User) UpdateUser() (err error) {
 	cmd := `update users set name = ?, email = ? where id = ?`
 	_, err = Db.Exec(cmd, u.Name, u.Email, u.ID)

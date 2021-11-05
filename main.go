@@ -18,9 +18,9 @@ func main() {
 	fmt.Println("models.Db =>", models.Db)
 
 	// u := &models.User{
-	// 	Name:     "test",
-	// 	Email:    "test@example.com",
-	// 	Password: "testtest",
+	// 	Name:     "test1",
+	// 	Email:    "test1@example.com",
+	// 	Password: "test1",
 	// }
 	// fmt.Println("u =>", u)
 	// u.CreateUser()
@@ -35,7 +35,7 @@ func main() {
 	// fmt.Println("err =>", err)
 	// fmt.Println("t =>", t)
 
-	// todos, _ := models.FindTodos()
+	// todos, _ := models.FindAllTodos()
 	// for index, todo := range todos {
 	// 	fmt.Println(index, todo)
 	// }
@@ -43,7 +43,7 @@ func main() {
 	// t, _ := models.FindTodo(1)
 	// t.Content = "this content is updated by user"
 	// t.UpdateTodo()
-	// fmt.Println(t)
+	// fmt.Println(t.UpdatedAt)
 
 	// u, _ := models.FindUser(1)
 	// _ = u.CreateTodo("todo to be deleted")
@@ -59,4 +59,18 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	// user, err := models.FindUserByEmail("test1@example.com")
+	// if err != nil {
+	// 	log.Fatalln(err)
+	// }
+	// fmt.Println("user =>", user)
+	// session, err := user.CreateSession()
+	// if err != nil {
+	// 	log.Fatalln(err)
+	// }
+	// fmt.Println("session =>", session)
+	// valid, _ := session.CheckSession()
+	// fmt.Println(valid)
+
 }

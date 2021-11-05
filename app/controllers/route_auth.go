@@ -29,3 +29,33 @@ func SignupHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/", 302) // 第3引数にリダイレクト先。第4引数にステータスコード。
 	}
 }
+
+func LoginHandler(w http.ResponseWriter, r *http.Request) {
+	generateHTML(w, nil, "layout", "public_navbar", "login")
+}
+
+func AuthenticateHandler(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+	user, err := models.FindUserByEmail(r.PostFormValue("email"))
+	if err != nil {
+		log.Println(err)
+		http.Redirect(w, r, "/login", 302)
+	}
+
+	if user.Password == models.Encrypt(r.PostFormValue("password")) {
+		session, err := user.CreateSession()
+		if err != nil {
+			log.Println(err)
+		}
+		cookie := http.Cookie{
+			Name:     "_cookie",
+			Value:    session.UUID,
+			HttpOnly: true,
+		}
+		http.SetCookie(w, &cookie)
+		http.Redirect(w, r, "/", 302)
+	} else {
+		http.Redirect(w, r, "/login", 302)
+	}
+
+}
