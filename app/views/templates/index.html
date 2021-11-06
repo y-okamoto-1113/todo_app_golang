@@ -1,3 +1,13 @@
 {{define "content"}}
-<h1>Index</h1>
+<p>User => {{.}}</p>
+
+UserName: {{.Name}}
+<h1>Sample Todo App</h1>
+<hr>
+
+{{range .Todos}}
+<div>{{.Content}}</div>
+<hr>
+{{end}}
+
 {{end}}

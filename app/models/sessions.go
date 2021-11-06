@@ -69,3 +69,18 @@ func (s *Session) DeleteSessionByUUID() (err error) {
 	}
 	return err
 }
+
+func (s *Session) GetUserBySession() (u User, err error) {
+	cmd := `select * from users where id = ?`
+	err = Db.QueryRow(cmd, s.UserID).Scan(
+		&u.ID,
+		&u.UUID,
+		&u.Name,
+		&u.Email,
+		&u.Password,
+		&u.CreatedAt,
+		&u.UpdatedAt,
+	)
+	return u, err
+
+}

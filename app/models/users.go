@@ -13,6 +13,7 @@ type User struct {
 	Password  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
+	Todos     []Todo
 }
 
 func (u *User) CreateUser() (err error) {
