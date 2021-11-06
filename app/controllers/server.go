@@ -50,5 +50,6 @@ func StartMainServer() error {
 	http.HandleFunc("/authenticate", AuthenticateHandler)
 	http.HandleFunc("/logout", LogoutHandler)
 	http.HandleFunc("/todos", IndexHandler)
+	http.HandleFunc("/todos/new", TodoNewHandler)
 	return http.ListenAndServe(":"+config.Config.Port, nil)
 }

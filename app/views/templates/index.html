@@ -1,8 +1,10 @@
 {{define "content"}}
 <p>User => {{.}}</p>
-
 UserName: {{.Name}}
 <h1>Sample Todo App</h1>
+<hr>
+
+<p>[<a href="/todos/new">Create</a>]</p>
 <hr>
 
 {{range .Todos}}
